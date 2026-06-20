@@ -66,7 +66,9 @@ import {
   DataAnalysis,
   User,
   UserFilled,
-  Document
+  Document,
+  DocumentChecked,
+  EditPen
 } from '@element-plus/icons-vue'
 import { ElMessageBox } from 'element-plus'
 
@@ -74,7 +76,9 @@ const ICONS = {
   DataAnalysis,
   User,
   UserFilled,
-  Document
+  Document,
+  DocumentChecked,
+  EditPen
 }
 
 const route = useRoute()

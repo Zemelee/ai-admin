@@ -13,10 +13,12 @@ export const MENUS_BY_ROLE = {
   ],
   student: [
     { path: '/student/profile', title: '我的档案', icon: 'UserFilled' },
-    { path: '/student/leaves', title: '我的请假', icon: 'Document' }
+    { path: '/student/leaves', title: '我的请假', icon: 'Document' },
+    { path: '/student/internship-logs', title: '实习日志', icon: 'EditPen' }
   ],
   mentor: [
-    { path: '/mentor/students', title: '我负责的学生', icon: 'User' }
+    { path: '/mentor/students', title: '我负责的学生', icon: 'User' },
+    { path: '/mentor/internship-logs', title: '日志确认', icon: 'EditPen' }
   ]
 }
 

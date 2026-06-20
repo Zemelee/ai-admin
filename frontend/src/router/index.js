@@ -48,6 +48,12 @@ const routes = [
         meta: { roles: ['student'], title: '我的请假' }
       },
       {
+        path: 'student/internship-logs',
+        name: 'student-internship-logs',
+        component: () => import('@/views/student/InternshipLogs.vue'),
+        meta: { roles: ['student'], title: '实习日志' }
+      },
+      {
         path: 'teacher/leaves',
         name: 'teacher-leaves',
         component: () => import('@/views/teacher/LeaveApproval.vue'),
@@ -71,6 +77,12 @@ const routes = [
         name: 'mentor-students',
         component: () => import('@/views/mentor/MyStudents.vue'),
         meta: { roles: ['mentor'], title: '我负责的学生' }
+      },
+      {
+        path: 'mentor/internship-logs',
+        name: 'mentor-internship-logs',
+        component: () => import('@/views/mentor/InternshipLogs.vue'),
+        meta: { roles: ['mentor'], title: '日志确认' }
       }
     ]
   },

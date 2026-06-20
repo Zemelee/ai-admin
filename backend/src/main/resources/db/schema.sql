@@ -174,15 +174,21 @@ CREATE TABLE `intern_log` (
     `sensitive_hit`         TINYINT(1)   NOT NULL DEFAULT 0    COMMENT 'AI 是否命中敏感词',
     `sensitive_words`       VARCHAR(500) DEFAULT NULL          COMMENT '命中词，逗号分隔',
     `sensitive_marked_html` TEXT         DEFAULT NULL          COMMENT 'AI 高亮后 HTML 片段',
-    `mentor_review`         TINYINT(1)   NOT NULL DEFAULT 0    COMMENT '企业指导是否已查阅',
+    `mentor_review`         TINYINT(1)   NOT NULL DEFAULT 0    COMMENT '企业指导是否已查阅（CONFIRMED 时置 1，冗余便于查询）',
     `teacher_review`        TINYINT(1)   NOT NULL DEFAULT 0    COMMENT '指导教师是否已查阅',
+    `status`                VARCHAR(16)  NOT NULL DEFAULT 'SUBMITTED' COMMENT 'SUBMITTED 待确认 / CONFIRMED 已通过 / REJECTED 已驳回',
+    `submit_time`           DATETIME     DEFAULT NULL          COMMENT '学生提交时间',
+    `mentor_review_time`    DATETIME     DEFAULT NULL          COMMENT '企业指导确认时间',
+    `mentor_review_user_id` BIGINT       DEFAULT NULL          COMMENT '确认人 user_id',
+    `mentor_comment`        VARCHAR(500) DEFAULT NULL          COMMENT '企业指导确认意见（驳回必填）',
     `create_time`           DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `update_time`           DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `deleted`               TINYINT(1)   NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_student_date` (`student_id`, `log_date`, `deleted`),
     KEY `idx_log_date` (`log_date`),
-    KEY `idx_sensitive` (`sensitive_hit`)
+    KEY `idx_sensitive` (`sensitive_hit`),
+    KEY `idx_status` (`status`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT '实习日志表';
 
 -- ============================================================
