@@ -41,6 +41,7 @@ public class LeaveQueryHelper {
     private final CompanyMapper companyMapper;
     private final LeaveApplyMapper leaveApplyMapper;
     private final ApprovalFlowMapper approvalFlowMapper;
+    private final AttachmentService attachmentService;
 
     public Student requireStudentByUserId(Long userId) {
         Student s = studentMapper.selectOne(new LambdaQueryWrapper<Student>()
@@ -163,6 +164,9 @@ public class LeaveQueryHelper {
             items.add(fi);
         }
         vo.setFlow(items);
+
+        // 佐证材料附件（诊断证明/家长知情书等）
+        vo.setAttachments(attachmentService.listByBiz(LeaveConst.BIZ_LEAVE, leave.getId()));
         return vo;
     }
 

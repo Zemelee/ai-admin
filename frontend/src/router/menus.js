@@ -9,7 +9,8 @@ export const MENUS_BY_ROLE = {
   ],
   teacher: [
     { path: '/teacher/students', title: '我带的学生', icon: 'User' },
-    { path: '/teacher/leaves', title: '请假审批', icon: 'DocumentChecked' }
+    { path: '/teacher/leaves', title: '请假审批', icon: 'DocumentChecked' },
+    { path: '/teacher/internship-logs', title: '学生日志', icon: 'EditPen' }
   ],
   student: [
     { path: '/student/profile', title: '我的档案', icon: 'UserFilled' },

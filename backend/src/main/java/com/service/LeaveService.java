@@ -43,6 +43,7 @@ public class LeaveService {
     private final TeacherMapper teacherMapper;
     private final SysUserMapper sysUserMapper;
     private final LeaveQueryHelper helper;
+    private final AttachmentService attachmentService;
 
     @Transactional(rollbackFor = Exception.class)
     public Long submit(Long userId, LeaveSubmitReq req) {
@@ -84,6 +85,9 @@ public class LeaveService {
             }
         }
         approvalFlowMapper.insert(tf);
+
+        // 绑定上传时 bizId 为空的佐证材料附件到本请假单
+        attachmentService.bindBiz(userId, LeaveConst.BIZ_LEAVE, leave.getId(), req.getAttachmentIds());
         return leave.getId();
     }
 

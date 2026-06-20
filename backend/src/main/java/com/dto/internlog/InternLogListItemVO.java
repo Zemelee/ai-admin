@@ -34,6 +34,9 @@ public class InternLogListItemVO {
     @Schema(description = "图片附件数")
     private Integer attachmentCount;
 
+    @Schema(description = "AI 是否命中敏感词")
+    private Integer sensitiveHit;
+
     @Schema(description = "状态：SUBMITTED/CONFIRMED/REJECTED")
     private String status;
 

@@ -50,7 +50,7 @@
       :close-on-click-modal="false"
       @close="resetForm"
     >
-      <el-form ref="formRef" :model="form" :rules="rules" label-width="84px">
+      <el-form ref="formRef" :model="form" :rules="rules" label-width="84px" v-loading="editLoading">
         <el-form-item label="日志日期" prop="logDate">
           <el-date-picker
             v-model="form.logDate"
@@ -82,31 +82,7 @@
     </el-dialog>
 
     <!-- 详情对话框 -->
-    <el-dialog v-model="detailVisible" title="日志详情" width="640px">
-      <div v-loading="detailLoading">
-        <el-descriptions :column="2" border v-if="detail">
-          <el-descriptions-item label="日期">{{ fmtDate(detail.logDate) }}</el-descriptions-item>
-          <el-descriptions-item label="状态">
-            <el-tag :type="STATUS_TAG[detail.status]" effect="light">{{ STATUS_LABEL[detail.status] }}</el-tag>
-          </el-descriptions-item>
-          <el-descriptions-item label="提交时间">{{ fmtDateTime(detail.submitTime) }}</el-descriptions-item>
-          <el-descriptions-item label="企业确认">{{ fmtDateTime(detail.mentorReviewTime) || '—' }}</el-descriptions-item>
-        </el-descriptions>
-        <div v-if="detail" class="detail-section">
-          <div class="detail-label">日志内容</div>
-          <div class="detail-content">{{ detail.content }}</div>
-        </div>
-        <div v-if="detail && detail.mentorComment" class="detail-section">
-          <div class="detail-label">企业指导意见</div>
-          <div class="detail-content">{{ detail.mentorComment }}</div>
-        </div>
-        <div v-if="detail && detail.attachments && detail.attachments.length" class="detail-section">
-          <div class="detail-label">图片附件</div>
-          <ImageUploader :model-value="detail.attachments" biz-type="LOG" readonly />
-        </div>
-        <el-empty v-if="detail && !detail.attachments?.length" description="无图片附件" :image-size="60" />
-      </div>
-    </el-dialog>
+    <LogDetailDialog v-model="detailVisible" :log-id="currentId" />
   </div>
 </template>
 
@@ -115,6 +91,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import ImageUploader from '@/components/ImageUploader.vue'
+import LogDetailDialog from '@/views/internlog/LogDetailDialog.vue'
 import {
   myLogs, submitLog, updateLog, logDetail,
   STATUS_LABEL, STATUS_TAG, fmtDate, fmtDateTime
@@ -138,8 +115,8 @@ const rules = {
 }
 
 const detailVisible = ref(false)
-const detailLoading = ref(false)
-const detail = ref(null)
+const currentId = ref(null)
+const editLoading = ref(false)
 
 function disabledFuture(d) {
   return d.getTime() > Date.now()
@@ -164,7 +141,7 @@ function openSubmit() {
 
 async function openEdit(id) {
   editingId.value = id
-  detailLoading.value = true
+  editLoading.value = true
   formVisible.value = true
   try {
     const d = await logDetail(id)
@@ -172,18 +149,13 @@ async function openEdit(id) {
     form.content = d.content
     attachments.value = d.attachments || []
   } finally {
-    detailLoading.value = false
+    editLoading.value = false
   }
 }
 
-async function openDetail(id) {
+function openDetail(id) {
+  currentId.value = id
   detailVisible.value = true
-  detailLoading.value = true
-  try {
-    detail.value = await logDetail(id)
-  } finally {
-    detailLoading.value = false
-  }
 }
 
 function resetForm() {

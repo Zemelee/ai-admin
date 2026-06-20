@@ -33,6 +33,15 @@ public class InternLogDetailVO {
     @Schema(description = "日志内容全文")
     private String content;
 
+    @Schema(description = "AI 是否命中敏感词")
+    private Integer sensitiveHit;
+
+    @Schema(description = "命中词，逗号分隔")
+    private String sensitiveWords;
+
+    @Schema(description = "AI 高亮后 HTML 片段")
+    private String sensitiveMarkedHtml;
+
     @Schema(description = "状态：SUBMITTED/CONFIRMED/REJECTED")
     private String status;
 

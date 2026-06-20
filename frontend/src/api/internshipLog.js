@@ -9,6 +9,9 @@ export const updateLog = (id, data) => req('put', `/intern-log/student/${id}`, d
 export const mentorPendingLogs = () => req('get', '/intern-log/mentor/pending')
 export const mentorConfirmLog = (id, data) => req('post', `/intern-log/mentor/confirm/${id}`, data)
 
+// 指导教师端
+export const teacherLogs = () => req('get', '/intern-log/teacher/my')
+
 // 通用详情
 export const logDetail = (id) => req('get', `/intern-log/${id}`)
 

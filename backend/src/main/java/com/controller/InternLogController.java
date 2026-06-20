@@ -60,6 +60,15 @@ public class InternLogController {
         return R.ok(internLogService.myLogs(CurrentUserUtil.userId()));
     }
 
+    // ========== 指导教师端 ==========
+
+    @Operation(summary = "[教师] 我分管学生的实习日志列表（含敏感标记）")
+    @SaCheckRole("teacher")
+    @GetMapping("/teacher/my")
+    public R<List<InternLogListItemVO>> teacherLogs() {
+        return R.ok(internLogService.teacherLogs(CurrentUserUtil.userId()));
+    }
+
     // ========== 企业指导端 ==========
 
     @Operation(summary = "[企业指导] 待我确认的日志列表")

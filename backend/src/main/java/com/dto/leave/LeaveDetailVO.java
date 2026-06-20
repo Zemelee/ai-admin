@@ -1,6 +1,7 @@
 package com.dto.leave;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import com.dto.attachment.AttachmentVO;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -37,6 +38,9 @@ public class LeaveDetailVO {
 
     /** 审批流水（按 nodeSeq 升序） */
     private List<FlowItem> flow;
+
+    /** 佐证材料附件列表（含预签名预览 URL） */
+    private List<AttachmentVO> attachments;
 
     @Data
     @Schema(description = "审批流水节点")

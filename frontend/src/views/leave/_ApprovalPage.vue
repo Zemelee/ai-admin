@@ -62,6 +62,10 @@
         <div><b>时段：</b>{{ fmtDateTime(current.startTime) }} ~ {{ fmtDateTime(current.endTime) }}</div>
         <div><b>事由：</b>{{ current.reason }}</div>
       </div>
+      <div v-if="detailAttachments.length" class="approve-attachments">
+        <div class="approve-attachments-label">佐证材料</div>
+        <ImageUploader :model-value="detailAttachments" biz-type="LEAVE" readonly />
+      </div>
       <el-form :model="approveForm" label-width="80px" style="margin-top:12px">
         <el-form-item label="审批意见">
           <el-input
@@ -92,7 +96,8 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { TYPE_LABEL, STATUS_LABEL, STATUS_TAG, fmtDateTime } from '@/api/leave'
+import ImageUploader from '@/components/ImageUploader.vue'
+import { TYPE_LABEL, STATUS_LABEL, STATUS_TAG, fmtDateTime, leaveDetail } from '@/api/leave'
 
 const props = defineProps({
   title: { type: String, required: true },
@@ -109,6 +114,7 @@ const loading = ref(false)
 const dialogVisible = ref(false)
 const approving = ref(false)
 const current = ref(null)
+const detailAttachments = ref([])
 const approveForm = reactive({ result: 'APPROVED', comment: '' })
 const dialogTitle = computed(() => approveForm.result === 'APPROVED' ? '通过审批' : '驳回审批')
 
@@ -133,7 +139,14 @@ function openApprove(row, result) {
   current.value = row
   approveForm.result = result
   approveForm.comment = ''
+  detailAttachments.value = []
   dialogVisible.value = true
+  // 拉取详情中的佐证材料图片供核验
+  leaveDetail(row.id)
+    .then((d) => {
+      detailAttachments.value = d.attachments || []
+    })
+    .catch(() => {})
 }
 
 async function onApprove() {
@@ -176,4 +189,6 @@ onMounted(loadList)
   font-size: 14px;
 }
 .approve-summary > div { padding: 2px 0; }
+.approve-attachments { margin-top: 12px; }
+.approve-attachments-label { font-size: 13px; color: #909399; margin-bottom: 6px; }
 </style>

@@ -2,6 +2,7 @@ package com.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.common.BizException;
 import com.common.InternLogConst;
 import com.dto.attachment.AttachmentVO;
@@ -9,6 +10,7 @@ import com.dto.internlog.InternLogConfirmReq;
 import com.dto.internlog.InternLogDetailVO;
 import com.dto.internlog.InternLogListItemVO;
 import com.dto.internlog.InternLogSubmitReq;
+import com.dto.internlog.SensitiveResult;
 import com.entity.InternLog;
 import com.entity.Mentor;
 import com.entity.Student;
@@ -46,6 +48,7 @@ public class InternLogService {
     private final SysUserMapper sysUserMapper;
     private final LeaveQueryHelper helper;
     private final AttachmentService attachmentService;
+    private final SensitiveCheckService sensitiveCheckService;
 
     // ========== 学生端 ==========
 
@@ -73,6 +76,13 @@ public class InternLogService {
 
         // 绑定上传时 bizId 为空的图片附件到本日志
         attachmentService.bindBiz(userId, InternLogConst.BIZ_LOG, log.getId(), req.getAttachmentIds());
+
+        // AI 敏感词检测（用工红线），命中回填字段
+        SensitiveResult sr = sensitiveCheckService.check(req.getContent(), log.getId(), userId);
+        log.setSensitiveHit(sr.isHit() ? 1 : 0);
+        log.setSensitiveWords(sr.getWords());
+        log.setSensitiveMarkedHtml(sr.getMarkedHtml());
+        internLogMapper.updateById(log);
         return log.getId();
     }
 
@@ -88,6 +98,11 @@ public class InternLogService {
         }
         log.setLogDate(req.getLogDate());
         log.setContent(req.getContent());
+        // 内容变更后重新检测敏感词
+        SensitiveResult sr = sensitiveCheckService.check(req.getContent(), log.getId(), userId);
+        log.setSensitiveHit(sr.isHit() ? 1 : 0);
+        log.setSensitiveWords(sr.getWords());
+        log.setSensitiveMarkedHtml(sr.getMarkedHtml());
         internLogMapper.updateById(log);
         // 重新绑定附件（覆盖）
         attachmentService.bindBiz(userId, InternLogConst.BIZ_LOG, log.getId(), req.getAttachmentIds());
@@ -99,6 +114,37 @@ public class InternLogService {
                 .eq(InternLog::getStudentId, student.getId())
                 .orderByDesc(InternLog::getLogDate));
         return enrichListItems(logs);
+    }
+
+    // ========== 指导教师端 ==========
+
+    /**
+     * 教师查看其分管学生的全部日志（含敏感标记），按日期倒序。
+     */
+    public List<InternLogListItemVO> teacherLogs(Long userId) {
+        Teacher teacher = teacherMapper.selectOne(new LambdaQueryWrapper<Teacher>()
+                .eq(Teacher::getUserId, userId).last("LIMIT 1"));
+        if (teacher == null) {
+            throw BizException.validate("未找到指导教师档案，请联系管理员补全");
+        }
+        List<Student> students = studentMapper.selectList(new LambdaQueryWrapper<Student>()
+                .eq(Student::getTeacherId, teacher.getId()));
+        if (students.isEmpty()) {
+            return new ArrayList<>();
+        }
+        Set<Long> studentIds = students.stream().map(Student::getId).collect(Collectors.toSet());
+        List<InternLog> logs = internLogMapper.selectList(new LambdaQueryWrapper<InternLog>()
+                .in(InternLog::getStudentId, studentIds)
+                .orderByDesc(InternLog::getLogDate));
+        List<InternLogListItemVO> result = enrichListItems(logs);
+        // 教师查阅后置 teacher_review=1
+        if (!logs.isEmpty()) {
+            internLogMapper.update(null, new LambdaUpdateWrapper<InternLog>()
+                    .in(InternLog::getStudentId, studentIds)
+                    .eq(InternLog::getTeacherReview, 0)
+                    .set(InternLog::getTeacherReview, 1));
+        }
+        return result;
     }
 
     // ========== 企业指导端 ==========
@@ -197,6 +243,7 @@ public class InternLogService {
             vo.setLogDate(l.getLogDate());
             vo.setContentSummary(summary(l.getContent()));
             vo.setAttachmentCount((int) attachmentService.countByBiz(InternLogConst.BIZ_LOG, l.getId()));
+            vo.setSensitiveHit(l.getSensitiveHit());
             vo.setStatus(l.getStatus());
             vo.setSubmitTime(l.getSubmitTime());
             vo.setMentorReviewTime(l.getMentorReviewTime());
@@ -225,6 +272,9 @@ public class InternLogService {
         vo.setStudentNo(student == null ? null : student.getStudentNo());
         vo.setLogDate(log.getLogDate());
         vo.setContent(log.getContent());
+        vo.setSensitiveHit(log.getSensitiveHit());
+        vo.setSensitiveWords(log.getSensitiveWords());
+        vo.setSensitiveMarkedHtml(log.getSensitiveMarkedHtml());
         vo.setStatus(log.getStatus());
         vo.setSubmitTime(log.getSubmitTime());
         vo.setMentorReviewTime(log.getMentorReviewTime());

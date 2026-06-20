@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 学生提交请假申请请求体
@@ -34,4 +35,7 @@ public class LeaveSubmitReq {
 
     @Schema(description = "家长是否已确认", example = "true")
     private Boolean parentConfirm;
+
+    @Schema(description = "佐证材料附件 ID 列表（诊断证明/家长知情书等图片）")
+    private List<Long> attachmentIds;
 }

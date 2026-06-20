@@ -25,6 +25,9 @@
             <el-tag v-else type="info" size="small">未确认</el-tag>
           </el-descriptions-item>
           <el-descriptions-item label="请假事由" :span="2">{{ info.reason }}</el-descriptions-item>
+          <el-descriptions-item v-if="info.attachments && info.attachments.length" label="佐证材料" :span="2">
+            <ImageUploader :model-value="info.attachments" biz-type="LEAVE" readonly />
+          </el-descriptions-item>
           <el-descriptions-item label="当前节点" :span="2">
             <span v-if="info.status === 'PENDING'">{{ NODE_LABEL[info.currentNode] || info.currentNode }}</span>
             <span v-else style="color:#999">流程已结束</span>
@@ -51,7 +54,7 @@
 
           <!-- 审批节点 -->
           <el-timeline-item
-            v-for="f in info.flows"
+            v-for="f in info.flow"
             :key="f.id"
             :type="flowDotType(f)"
             :timestamp="f.actTime ? fmtDateTime(f.actTime) : '待处理'"
@@ -94,6 +97,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ArrowLeft } from '@element-plus/icons-vue'
+import ImageUploader from '@/components/ImageUploader.vue'
 import {
   leaveDetail,
   TYPE_LABEL, STATUS_LABEL, STATUS_TAG, NODE_LABEL,

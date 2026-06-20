@@ -109,6 +109,9 @@
             show-word-limit
           />
         </el-form-item>
+        <el-form-item label="佐证材料">
+          <ImageUploader v-model="attachments" biz-type="LEAVE" :max="6" />
+        </el-form-item>
       </el-form>
       <template #footer>
         <el-button @click="dialogVisible = false">取消</el-button>
@@ -123,6 +126,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
+import ImageUploader from '@/components/ImageUploader.vue'
 import {
   myLeaves, submitLeave, cancelLeave,
   TYPE_LABEL, STATUS_LABEL, STATUS_TAG, NODE_LABEL, fmtDateTime
@@ -144,6 +148,7 @@ const form = reactive({
   parentConfirm: false,
   reason: ''
 })
+const attachments = ref([])
 
 const rules = {
   leaveType: [{ required: true, message: '请选择假别', trigger: 'change' }],
@@ -189,6 +194,7 @@ function resetForm() {
   formRef.value?.resetFields()
   form.leaveType = 'PERSONAL'
   form.parentConfirm = false
+  attachments.value = []
 }
 
 async function onSubmit() {
@@ -202,7 +208,8 @@ async function onSubmit() {
       startTime: form.startTime,
       endTime: form.endTime,
       reason: form.reason,
-      parentConfirm: form.parentConfirm
+      parentConfirm: form.parentConfirm,
+      attachmentIds: attachments.value.map((a) => a.id)
     })
     ElMessage.success('提交成功，等待教师审批')
     dialogVisible.value = false

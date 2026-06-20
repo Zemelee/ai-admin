@@ -60,6 +60,12 @@ const routes = [
         meta: { roles: ['teacher'], title: '请假审批' }
       },
       {
+        path: 'teacher/internship-logs',
+        name: 'teacher-internship-logs',
+        component: () => import('@/views/teacher/InternshipLogs.vue'),
+        meta: { roles: ['teacher'], title: '学生日志' }
+      },
+      {
         path: 'supervisor/leaves',
         name: 'supervisor-leaves',
         component: () => import('@/views/supervisor/LeaveApproval.vue'),

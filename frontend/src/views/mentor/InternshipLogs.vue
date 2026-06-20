@@ -47,8 +47,19 @@
           <el-descriptions-item label="提交时间">{{ fmtDateTime(detail.submitTime) }}</el-descriptions-item>
         </el-descriptions>
         <div v-if="detail" class="detail-section">
-          <div class="detail-label">日志内容</div>
-          <div class="detail-content">{{ detail.content }}</div>
+          <div class="detail-label">
+            日志内容
+            <el-tag v-if="detail.sensitiveHit" type="danger" size="small" effect="dark" style="margin-left:8px">
+              AI 检出敏感词
+            </el-tag>
+            <span v-if="detail.sensitiveWords" class="sensitive-words">命中：{{ detail.sensitiveWords }}</span>
+          </div>
+          <div
+            v-if="detail.sensitiveHit && detail.sensitiveMarkedHtml"
+            class="detail-content sensitive"
+            v-html="detail.sensitiveMarkedHtml"
+          />
+          <div v-else class="detail-content">{{ detail.content }}</div>
         </div>
         <div v-if="detail && detail.attachments && detail.attachments.length" class="detail-section">
           <div class="detail-label">图片附件</div>
@@ -179,7 +190,8 @@ onMounted(loadList)
 .card-title { font-size: 16px; font-weight: 600; }
 .muted { color: #909399; font-size: 12px; }
 .detail-section { margin-top: 16px; }
-.detail-label { font-size: 13px; color: #909399; margin-bottom: 6px; }
+.detail-label { font-size: 13px; color: #909399; margin-bottom: 6px; display: flex; align-items: center; }
+.sensitive-words { margin-left: 8px; color: #f56c6c; font-size: 12px; }
 .detail-content {
   background: #f5f7fa;
   border-radius: 6px;
@@ -187,5 +199,12 @@ onMounted(loadList)
   font-size: 14px;
   line-height: 1.6;
   white-space: pre-wrap;
+}
+.detail-content.sensitive :deep(.sensitive) {
+  color: #fff;
+  background: #f56c6c;
+  border-radius: 3px;
+  padding: 0 4px;
+  font-weight: 600;
 }
 </style>
