@@ -27,6 +27,18 @@ const routes = [
         component: () => import('@/views/supervisor/Overview.vue'),
         meta: { roles: ['supervisor'], title: '全局总览' }
       },
+      {
+        path: 'admin/students',
+        name: 'admin-students',
+        component: () => import('@/views/admin/Students.vue'),
+        meta: { roles: ['supervisor'], title: '学生档案' }
+      },
+      {
+        path: 'admin/companies',
+        name: 'admin-companies',
+        component: () => import('@/views/admin/Companies.vue'),
+        meta: { roles: ['supervisor'], title: '企业档案' }
+      },
       // teacher
       {
         path: 'teacher/students',

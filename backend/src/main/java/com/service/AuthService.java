@@ -35,9 +35,15 @@ public class AuthService {
     /**
      * 登录
      */
+    /**
+     * 登录方法
+     * @param req 登录请求参数（包含用户名和密码）
+     * @return 登录响应（包含token和用户信息）
+     */
     public LoginResp login(LoginReq req) {
         SysUser user = sysUserMapper.selectOne(
                 new LambdaQueryWrapper<SysUser>()
+                        // lambda user -> user.getUsername()
                         .eq(SysUser::getUsername, req.getUsername())
                         .last("LIMIT 1")
         );

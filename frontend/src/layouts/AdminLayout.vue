@@ -68,7 +68,8 @@ import {
   UserFilled,
   Document,
   DocumentChecked,
-  EditPen
+  EditPen,
+  OfficeBuilding
 } from '@element-plus/icons-vue'
 import { ElMessageBox } from 'element-plus'
 
@@ -78,7 +79,8 @@ const ICONS = {
   UserFilled,
   Document,
   DocumentChecked,
-  EditPen
+  EditPen,
+  OfficeBuilding
 }
 
 const route = useRoute()
