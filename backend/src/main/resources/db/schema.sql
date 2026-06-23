@@ -207,12 +207,17 @@ CREATE TABLE `intern_weekly` (
     `sensitive_marked_html` TEXT         DEFAULT NULL,
     `teacher_score`         TINYINT      DEFAULT NULL          COMMENT '教师评分 1-5',
     `teacher_comment`       VARCHAR(500) DEFAULT NULL,
+    `status`                VARCHAR(16)  NOT NULL DEFAULT 'SUBMITTED' COMMENT 'SUBMITTED 待评分 / REVIEWED 已评分 / REJECTED 已驳回',
+    `submit_time`           DATETIME     DEFAULT NULL          COMMENT '学生提交时间',
+    `teacher_review_time`   DATETIME     DEFAULT NULL          COMMENT '教师评分/驳回时间',
+    `teacher_review_user_id` BIGINT      DEFAULT NULL          COMMENT '评分教师 user_id',
     `create_time`           DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `update_time`           DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `deleted`               TINYINT(1)   NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_student_week` (`student_id`, `year_week`, `deleted`),
-    KEY `idx_week` (`year_week`)
+    KEY `idx_week` (`year_week`),
+    KEY `idx_status` (`status`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT '实习周记表';
 
 -- ============================================================

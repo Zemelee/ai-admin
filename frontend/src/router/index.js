@@ -46,6 +46,12 @@ const routes = [
         component: () => import('@/views/teacher/MyStudents.vue'),
         meta: { roles: ['teacher'], title: '我带的学生' }
       },
+      {
+        path: 'teacher/weekly-reports',
+        name: 'weekly-reports',
+        component: () => import('@/views/teacher/WeeklyReports.vue'),
+        meta: { roles: ['teacher'], title: '学生周记' }
+      },
       // student
       {
         path: 'student/profile',

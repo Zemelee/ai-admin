@@ -6,15 +6,21 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.common.R;
 import com.dto.admin.AdminCompanySaveReq;
 import com.dto.admin.AdminCompanyVO;
+import com.dto.admin.AdminMentorSaveReq;
+import com.dto.admin.AdminMentorVO;
 import com.dto.admin.AdminStudentSaveReq;
 import com.dto.admin.AdminStudentVO;
+import com.dto.admin.AdminTeacherSaveReq;
+import com.dto.admin.AdminTeacherVO;
 import com.dto.admin.StudentBindReq;
 import com.entity.Company;
 import com.entity.Mentor;
 import com.entity.SysUser;
 import com.entity.Teacher;
 import com.service.AdminCompanyService;
+import com.service.AdminMentorService;
 import com.service.AdminStudentService;
+import com.service.AdminTeacherService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -56,6 +62,8 @@ public class AdminController {
 
     private final AdminStudentService adminStudentService;
     private final AdminCompanyService adminCompanyService;
+    private final AdminTeacherService adminTeacherService;
+    private final AdminMentorService adminMentorService;
     private final TeacherMapper teacherMapper;
     private final MentorMapper mentorMapper;
     private final CompanyMapper companyMapper;
@@ -136,6 +144,71 @@ public class AdminController {
     @DeleteMapping("/company/{id}")
     public R<Void> companyDelete(@PathVariable Long id) {
         adminCompanyService.delete(id);
+        return R.ok();
+    }
+
+    // ========== 教师档案 ==========
+
+    @Operation(summary = "教师档案分页")
+    @GetMapping("/teacher/page")
+    public R<IPage<AdminTeacherVO>> teacherPage(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Integer status,
+            @RequestParam(defaultValue = "1") long page,
+            @RequestParam(defaultValue = "10") long size) {
+        return R.ok(adminTeacherService.page(keyword, status, page, size));
+    }
+
+    @Operation(summary = "新增教师")
+    @PostMapping("/teacher")
+    public R<Long> teacherCreate(@Valid @RequestBody AdminTeacherSaveReq req) {
+        return R.ok(adminTeacherService.create(req));
+    }
+
+    @Operation(summary = "编辑教师")
+    @PutMapping("/teacher/{id}")
+    public R<Void> teacherUpdate(@PathVariable Long id, @Valid @RequestBody AdminTeacherSaveReq req) {
+        adminTeacherService.update(id, req);
+        return R.ok();
+    }
+
+    @Operation(summary = "删除教师")
+    @DeleteMapping("/teacher/{id}")
+    public R<Void> teacherDelete(@PathVariable Long id) {
+        adminTeacherService.delete(id);
+        return R.ok();
+    }
+
+    // ========== 企业指导（mentor）档案 ==========
+
+    @Operation(summary = "企业指导分页")
+    @GetMapping("/mentor/page")
+    public R<IPage<AdminMentorVO>> mentorPage(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Long companyId,
+            @RequestParam(required = false) Integer status,
+            @RequestParam(defaultValue = "1") long page,
+            @RequestParam(defaultValue = "10") long size) {
+        return R.ok(adminMentorService.page(keyword, companyId, status, page, size));
+    }
+
+    @Operation(summary = "新增企业指导")
+    @PostMapping("/mentor")
+    public R<Long> mentorCreate(@Valid @RequestBody AdminMentorSaveReq req) {
+        return R.ok(adminMentorService.create(req));
+    }
+
+    @Operation(summary = "编辑企业指导")
+    @PutMapping("/mentor/{id}")
+    public R<Void> mentorUpdate(@PathVariable Long id, @Valid @RequestBody AdminMentorSaveReq req) {
+        adminMentorService.update(id, req);
+        return R.ok();
+    }
+
+    @Operation(summary = "删除企业指导")
+    @DeleteMapping("/mentor/{id}")
+    public R<Void> mentorDelete(@PathVariable Long id) {
+        adminMentorService.delete(id);
         return R.ok();
     }
 

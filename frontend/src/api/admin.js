@@ -14,6 +14,18 @@ export const adminCompanyCreate = (data) => req('post', '/admin/company', data)
 export const adminCompanyUpdate = (id, data) => req('put', `/admin/company/${id}`, data)
 export const adminCompanyDelete = (id) => req('delete', `/admin/company/${id}`)
 
+// ========== 教师档案 ==========
+export const adminTeacherPage = (params) => req('get', '/admin/teacher/page', params)
+export const adminTeacherCreate = (data) => req('post', '/admin/teacher', data)
+export const adminTeacherUpdate = (id, data) => req('put', `/admin/teacher/${id}`, data)
+export const adminTeacherDelete = (id) => req('delete', `/admin/teacher/${id}`)
+
+// ========== 企业指导档案 ==========
+export const adminMentorPage = (params) => req('get', '/admin/mentor/page', params)
+export const adminMentorCreate = (data) => req('post', '/admin/mentor', data)
+export const adminMentorUpdate = (id, data) => req('put', `/admin/mentor/${id}`, data)
+export const adminMentorDelete = (id) => req('delete', `/admin/mentor/${id}`)
+
 // ========== 绑定下拉 ==========
 export const optionTeachers = () => req('get', '/admin/option/teachers')
 export const optionMentors = () => req('get', '/admin/option/mentors')

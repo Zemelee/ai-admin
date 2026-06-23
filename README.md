@@ -2,7 +2,8 @@
 
 
 > 当前版本：**MVP-v1.0**（核心骨架）
-
+systemctl start docker
+docker start minio
 ---
 
 ## 1. 目录结构（Monorepo）
