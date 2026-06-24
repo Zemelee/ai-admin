@@ -10,6 +10,7 @@ export const MENUS_BY_ROLE = {
     { path: '/admin/mentors', title: '企业指导', icon: 'Avatar' },
     { path: '/admin/companies', title: '企业档案', icon: 'OfficeBuilding' },
     { path: '/supervisor/leaves', title: '请假审批', icon: 'DocumentChecked' },
+    { path: '/supervisor/transfers', title: '单位变更审批', icon: 'Files' },
     { path: '/policy/chat', title: '合规知识库', icon: 'ChatDotRound' }
   ],
   teacher: [
@@ -17,6 +18,7 @@ export const MENUS_BY_ROLE = {
     { path: '/teacher/leaves', title: '请假审批', icon: 'DocumentChecked' },
     { path: '/teacher/internship-logs', title: '学生日志', icon: 'EditPen' },
     { path: '/teacher/weekly-reports', title: '周记评分', icon: 'Memo' },
+    { path: '/teacher/transfers', title: '单位变更审批', icon: 'Files' },
     { path: '/policy/chat', title: '合规知识库', icon: 'ChatDotRound' }
   ],
   student: [
@@ -24,11 +26,13 @@ export const MENUS_BY_ROLE = {
     { path: '/student/leaves', title: '我的请假', icon: 'Document' },
     { path: '/student/internship-logs', title: '实习日志', icon: 'EditPen' },
     { path: '/student/weekly-reports', title: '实习周记', icon: 'Memo' },
+    { path: '/student/transfers', title: '单位变更', icon: 'Files' },
     { path: '/policy/chat', title: '合规知识库', icon: 'ChatDotRound' }
   ],
   mentor: [
     { path: '/mentor/students', title: '我负责的学生', icon: 'User' },
     { path: '/mentor/internship-logs', title: '日志确认', icon: 'EditPen' },
+    { path: '/mentor/transfers', title: '单位变更审批', icon: 'Files' },
     { path: '/policy/chat', title: '合规知识库', icon: 'ChatDotRound' }
   ]
 }

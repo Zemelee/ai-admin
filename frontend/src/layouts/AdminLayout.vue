@@ -72,7 +72,8 @@ import {
   OfficeBuilding,
   Avatar,
   ChatDotRound,
-  Memo
+  Memo,
+  Files
 } from '@element-plus/icons-vue'
 import { ElMessageBox } from 'element-plus'
 
@@ -86,7 +87,8 @@ const ICONS = {
   OfficeBuilding,
   Avatar,
   ChatDotRound,
-  Memo
+  Memo,
+  Files
 }
 
 const route = useRoute()

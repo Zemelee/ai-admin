@@ -90,6 +90,12 @@ const routes = [
         meta: { roles: ['student'], title: '实习周记' }
       },
       {
+        path: 'student/transfers',
+        name: 'student-transfers',
+        component: () => import('@/views/student/MyTransfers.vue'),
+        meta: { roles: ['student'], title: '我的单位变更' }
+      },
+      {
         path: 'teacher/leaves',
         name: 'teacher-leaves',
         component: () => import('@/views/teacher/LeaveApproval.vue'),
@@ -125,6 +131,30 @@ const routes = [
         name: 'mentor-internship-logs',
         component: () => import('@/views/mentor/InternshipLogs.vue'),
         meta: { roles: ['mentor'], title: '日志确认' }
+      },
+      {
+        path: 'mentor/transfers',
+        name: 'mentor-transfers',
+        component: () => import('@/views/mentor/TransferApproval.vue'),
+        meta: { roles: ['mentor'], title: '单位变更审批' }
+      },
+      {
+        path: 'teacher/transfers',
+        name: 'teacher-transfers',
+        component: () => import('@/views/teacher/TransferApproval.vue'),
+        meta: { roles: ['teacher'], title: '单位变更审批' }
+      },
+      {
+        path: 'supervisor/transfers',
+        name: 'supervisor-transfers',
+        component: () => import('@/views/supervisor/TransferApproval.vue'),
+        meta: { roles: ['supervisor'], title: '单位变更审批' }
+      },
+      {
+        path: 'transfer/:id',
+        name: 'transfer-detail',
+        component: () => import('@/views/transfer/TransferDetail.vue'),
+        meta: { roles: ['student', 'mentor', 'teacher', 'supervisor'], title: '变更详情' }
       },
       // 合规知识库 AI 问答（全角色）
       {
@@ -183,6 +213,7 @@ router.beforeEach(async (to) => {
   // 角色校验
   const allow = to.meta.roles
   if (allow && allow.length > 0 && user.role && !allow.includes(user.role)) {
+    console.warn('[Router] 阻止访问: path=' + to.path + ', user.role=' + user.role + ', allow=' + JSON.stringify(allow))
     return { path: '/403' }
   }
   return true
