@@ -39,6 +39,18 @@ const routes = [
         component: () => import('@/views/admin/Companies.vue'),
         meta: { roles: ['supervisor'], title: '企业档案' }
       },
+      {
+        path: 'admin/teachers',
+        name: 'admin-teachers',
+        component: () => import('@/views/admin/Teachers.vue'),
+        meta: { roles: ['supervisor'], title: '教师档案' }
+      },
+      {
+        path: 'admin/mentors',
+        name: 'admin-mentors',
+        component: () => import('@/views/admin/Mentors.vue'),
+        meta: { roles: ['supervisor'], title: '企业指导档案' }
+      },
       // teacher
       {
         path: 'teacher/students',
@@ -70,6 +82,12 @@ const routes = [
         name: 'student-internship-logs',
         component: () => import('@/views/student/InternshipLogs.vue'),
         meta: { roles: ['student'], title: '实习日志' }
+      },
+      {
+        path: 'student/weekly-reports',
+        name: 'student-weekly-reports',
+        component: () => import('@/views/student/WeeklyReports.vue'),
+        meta: { roles: ['student'], title: '实习周记' }
       },
       {
         path: 'teacher/leaves',
@@ -107,6 +125,13 @@ const routes = [
         name: 'mentor-internship-logs',
         component: () => import('@/views/mentor/InternshipLogs.vue'),
         meta: { roles: ['mentor'], title: '日志确认' }
+      },
+      // 合规知识库 AI 问答（全角色）
+      {
+        path: 'policy/chat',
+        name: 'policy-chat',
+        component: () => import('@/views/policy/PolicyChat.vue'),
+        meta: { roles: ['student', 'teacher', 'mentor', 'supervisor'], title: '合规知识库' }
       }
     ]
   },
