@@ -64,6 +64,12 @@ const routes = [
         component: () => import('@/views/teacher/WeeklyReports.vue'),
         meta: { roles: ['teacher'], title: '学生周记' }
       },
+      {
+        path: 'teacher/intern-reports',
+        name: 'teacher-intern-reports',
+        component: () => import('@/views/teacher/InternReports.vue'),
+        meta: { roles: ['teacher'], title: '实习报告评分' }
+      },
       // student
       {
         path: 'student/profile',
@@ -88,6 +94,12 @@ const routes = [
         name: 'student-weekly-reports',
         component: () => import('@/views/student/WeeklyReports.vue'),
         meta: { roles: ['student'], title: '实习周记' }
+      },
+      {
+        path: 'student/intern-reports',
+        name: 'student-intern-reports',
+        component: () => import('@/views/student/InternReports.vue'),
+        meta: { roles: ['student'], title: '实习报告' }
       },
       {
         path: 'student/transfers',

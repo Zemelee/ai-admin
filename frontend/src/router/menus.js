@@ -18,6 +18,7 @@ export const MENUS_BY_ROLE = {
     { path: '/teacher/leaves', title: '请假审批', icon: 'DocumentChecked' },
     { path: '/teacher/internship-logs', title: '学生日志', icon: 'EditPen' },
     { path: '/teacher/weekly-reports', title: '周记评分', icon: 'Memo' },
+    { path: '/teacher/intern-reports', title: '实习报告评分', icon: 'Document' },
     { path: '/teacher/transfers', title: '单位变更审批', icon: 'Files' },
     { path: '/policy/chat', title: '合规知识库', icon: 'ChatDotRound' }
   ],
@@ -26,6 +27,7 @@ export const MENUS_BY_ROLE = {
     { path: '/student/leaves', title: '我的请假', icon: 'Document' },
     { path: '/student/internship-logs', title: '实习日志', icon: 'EditPen' },
     { path: '/student/weekly-reports', title: '实习周记', icon: 'Memo' },
+    { path: '/student/intern-reports', title: '实习报告', icon: 'Files' },
     { path: '/student/transfers', title: '单位变更', icon: 'Files' },
     { path: '/policy/chat', title: '合规知识库', icon: 'ChatDotRound' }
   ],
