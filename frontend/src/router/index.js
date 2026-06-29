@@ -28,6 +28,12 @@ const routes = [
         meta: { roles: ['supervisor'], title: '全局总览' }
       },
       {
+        path: 'supervisor/warnings',
+        name: 'supervisor-warnings',
+        component: () => import('@/views/supervisor/Warnings.vue'),
+        meta: { roles: ['supervisor'], title: '三色预警' }
+      },
+      {
         path: 'admin/students',
         name: 'admin-students',
         component: () => import('@/views/admin/Students.vue'),

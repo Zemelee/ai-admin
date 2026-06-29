@@ -5,6 +5,7 @@
 export const MENUS_BY_ROLE = {
   supervisor: [
     { path: '/supervisor/overview', title: '全局总览', icon: 'DataAnalysis' },
+    { path: '/supervisor/warnings', title: '三色预警', icon: 'Warning' },
     { path: '/admin/students', title: '学生档案', icon: 'User' },
     { path: '/admin/teachers', title: '教师档案', icon: 'UserFilled' },
     { path: '/admin/mentors', title: '企业指导', icon: 'Avatar' },
