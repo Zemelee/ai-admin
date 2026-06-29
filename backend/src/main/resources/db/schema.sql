@@ -19,6 +19,7 @@ DROP TABLE IF EXISTS `warning`;
 DROP TABLE IF EXISTS `attachment`;
 DROP TABLE IF EXISTS `approval_flow`;
 DROP TABLE IF EXISTS `transfer_apply`;
+DROP TABLE IF EXISTS `company_eval`;
 DROP TABLE IF EXISTS `intern_report`;
 DROP TABLE IF EXISTS `intern_weekly`;
 DROP TABLE IF EXISTS `intern_log`;
@@ -268,6 +269,30 @@ CREATE TABLE `intern_report` (
     KEY `idx_report_type` (`report_type`),
     KEY `idx_status` (`status`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT '实习报告表';
+
+-- ============================================================
+-- 10.1 企业评价 / 实习鉴定表
+-- ============================================================
+CREATE TABLE `company_eval` (
+    `id`                BIGINT       NOT NULL,
+    `student_id`        BIGINT       NOT NULL              COMMENT '学生 ID',
+    `mentor_id`         BIGINT       NOT NULL              COMMENT '评价企业指导 mentor.id 快照',
+    `mentor_user_id`    BIGINT       NOT NULL              COMMENT '评价人 user_id',
+    `score_attendance`  TINYINT      DEFAULT NULL          COMMENT '出勤与纪律 1-5',
+    `score_ability`     TINYINT      DEFAULT NULL          COMMENT '专业能力 1-5',
+    `score_attitude`    TINYINT      DEFAULT NULL          COMMENT '工作态度 1-5',
+    `score_overall`     TINYINT      DEFAULT NULL          COMMENT '综合评价 1-5',
+    `comment`           VARCHAR(1000) DEFAULT NULL         COMMENT '鉴定评语',
+    `status`            VARCHAR(16)  NOT NULL DEFAULT 'DRAFT' COMMENT 'DRAFT/SUBMITTED',
+    `submit_time`       DATETIME     DEFAULT NULL          COMMENT '提交时间',
+    `create_time`       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `update_time`       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `deleted`           TINYINT(1)   NOT NULL DEFAULT 0,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_student` (`student_id`, `deleted`),
+    KEY `idx_mentor` (`mentor_id`),
+    KEY `idx_status` (`status`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT '企业评价/实习鉴定表';
 
 -- ============================================================
 -- 11. 审批流水表（leave_apply / transfer_apply 共用）

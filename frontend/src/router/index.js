@@ -76,6 +76,12 @@ const routes = [
         component: () => import('@/views/teacher/InternReports.vue'),
         meta: { roles: ['teacher'], title: '实习报告评分' }
       },
+      {
+        path: 'teacher/company-evals',
+        name: 'teacher-company-evals',
+        component: () => import('@/views/teacher/CompanyEvals.vue'),
+        meta: { roles: ['teacher'], title: '企业鉴定' }
+      },
       // student
       {
         path: 'student/profile',
@@ -106,6 +112,12 @@ const routes = [
         name: 'student-intern-reports',
         component: () => import('@/views/student/InternReports.vue'),
         meta: { roles: ['student'], title: '实习报告' }
+      },
+      {
+        path: 'student/my-appraisal',
+        name: 'student-my-appraisal',
+        component: () => import('@/views/student/MyAppraisal.vue'),
+        meta: { roles: ['student'], title: '我的实习鉴定' }
       },
       {
         path: 'student/transfers',
@@ -157,6 +169,12 @@ const routes = [
         meta: { roles: ['mentor'], title: '单位变更审批' }
       },
       {
+        path: 'mentor/company-evals',
+        name: 'mentor-company-evals',
+        component: () => import('@/views/mentor/CompanyEvals.vue'),
+        meta: { roles: ['mentor'], title: '实习鉴定' }
+      },
+      {
         path: 'teacher/transfers',
         name: 'teacher-transfers',
         component: () => import('@/views/teacher/TransferApproval.vue'),
@@ -167,6 +185,12 @@ const routes = [
         name: 'supervisor-transfers',
         component: () => import('@/views/supervisor/TransferApproval.vue'),
         meta: { roles: ['supervisor'], title: '单位变更审批' }
+      },
+      {
+        path: 'supervisor/company-evals',
+        name: 'supervisor-company-evals',
+        component: () => import('@/views/supervisor/CompanyEvals.vue'),
+        meta: { roles: ['supervisor'], title: '企业鉴定' }
       },
       {
         path: 'transfer/:id',
