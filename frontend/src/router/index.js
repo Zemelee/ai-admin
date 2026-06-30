@@ -77,6 +77,12 @@ const routes = [
         meta: { roles: ['teacher'], title: '实习报告评分' }
       },
       {
+        path: 'teacher/student-scores',
+        name: 'teacher-student-scores',
+        component: () => import('@/views/teacher/StudentScores.vue'),
+        meta: { roles: ['teacher'], title: '成绩汇总' }
+      },
+      {
         path: 'teacher/company-evals',
         name: 'teacher-company-evals',
         component: () => import('@/views/teacher/CompanyEvals.vue'),
@@ -112,6 +118,12 @@ const routes = [
         name: 'student-intern-reports',
         component: () => import('@/views/student/InternReports.vue'),
         meta: { roles: ['student'], title: '实习报告' }
+      },
+      {
+        path: 'student/my-score',
+        name: 'student-my-score',
+        component: () => import('@/views/student/MyScore.vue'),
+        meta: { roles: ['student'], title: '我的成绩' }
       },
       {
         path: 'student/my-appraisal',
@@ -190,6 +202,12 @@ const routes = [
         path: 'supervisor/company-evals',
         name: 'supervisor-company-evals',
         component: () => import('@/views/supervisor/CompanyEvals.vue'),
+        meta: { roles: ['supervisor'], title: '企业鉴定' }
+      },
+      {
+        path: 'supervisor/student-scores',
+        name: 'supervisor-student-scores',
+        component: () => import('@/views/supervisor/AllScores.vue'),
         meta: { roles: ['supervisor'], title: '企业鉴定' }
       },
       {
