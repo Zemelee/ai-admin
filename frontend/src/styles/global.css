@@ -25,6 +25,16 @@ a {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
+/* 表格小屏横向滚动 */
+.el-table { overflow-x: auto; }
+
+/* 小屏页边距优化 */
+@media (max-width: 768px) {
+  .page-card { padding: 12px; }
+  .page > .page-card .card-head { flex-wrap: wrap; gap: 8px; }
+  .card-tools { flex-wrap: wrap; }
+}
+
 .page-title {
   font-size: 20px;
   font-weight: 600;
