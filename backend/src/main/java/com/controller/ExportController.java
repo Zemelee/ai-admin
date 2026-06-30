@@ -1,6 +1,7 @@
 package com.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.annotation.SaMode;
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.common.CurrentUserUtil;
@@ -49,7 +50,7 @@ public class ExportController {
 
     @Operation(summary = "导出成绩汇总（supervisor 全部 / teacher 分管）")
     @GetMapping("/scores")
-    @SaCheckRole({"supervisor", "teacher"})
+    @SaCheckRole(value = {"supervisor", "teacher"}, mode = SaMode.OR)
     public void exportScores(HttpServletResponse response) throws IOException {
         String role = CurrentUserUtil.roleCode();
         List<ScoreItemVO> scores;

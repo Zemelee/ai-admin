@@ -1,11 +1,11 @@
-import { getToken } from './http'
+import { BASE_URL, getToken } from './http'
 
 /**
  * 带认证的下载：通过 fetch + satoken header 请求后端，将响应存为 Blob 下载。
  * 解决了 window.open 无法携带 Authorization 头的问题。
  */
 export async function download(url, filename) {
-  const resp = await fetch(url, {
+  const resp = await fetch(BASE_URL + url, {
     headers: { satoken: getToken() || '' }
   })
   if (!resp.ok) {
@@ -19,6 +19,10 @@ export async function download(url, filename) {
     if (text.includes('暂无数据')) {
       throw new Error(text)
     }
+  }
+  // 后端返回 HTML 说明走到了错误页（如未授权）
+  if (blob.type.includes('text/html')) {
+    throw new Error('请求失败，请确认登录状态')
   }
   const a = document.createElement('a')
   a.href = URL.createObjectURL(blob)
