@@ -11,6 +11,7 @@ import com.mapper.MentorMapper;
 import com.mapper.StudentMapper;
 import com.mapper.SysUserMapper;
 import com.mapper.TeacherMapper;
+import com.service.DashboardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class SupervisorController {
     private final TeacherMapper teacherMapper;
     private final CompanyMapper companyMapper;
     private final MentorMapper mentorMapper;
+    private final DashboardService dashboardService;
 
     @Operation(summary = "全局总览（账号 / 学生 / 教师 / 企业 / mentor 数量与状态分布）")
     @GetMapping("/overview")
@@ -92,5 +94,11 @@ public class SupervisorController {
         data.put("recentStudents", recentStudents);
 
         return R.ok(data);
+    }
+
+    @Operation(summary = "仪表盘数据聚合（成绩分布/专业平均/企业平均/鉴定维度/预警统计）")
+    @GetMapping("/dashboard")
+    public R<Map<String, Object>> dashboard() {
+        return R.ok(dashboardService.getDashboardData());
     }
 }
