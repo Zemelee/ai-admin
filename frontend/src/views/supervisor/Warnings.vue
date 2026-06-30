@@ -73,6 +73,7 @@
             <el-option label="已处理" value="REVIEWED" />
             <el-option label="已忽略" value="IGNORED" />
           </el-select>
+          <el-button :icon="Download" @click="onExport">导出 Excel</el-button>
           <el-button :icon="Refresh" @click="loadAll">刷新</el-button>
         </div>
       </div>
@@ -144,12 +145,13 @@
 <script setup>
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import * as echarts from 'echarts'
-import { Refresh } from '@element-plus/icons-vue'
+import { Download, Refresh } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import {
   scanWarnings, warningStats, warningList, reviewWarning,
   LEVEL_TAG, STATUS_LABEL, STATUS_TAG, RULE_LABEL, RULE_TAG, fmtDateTime
 } from '@/api/warning'
+import { download } from '@/utils/download'
 
 const stats = ref(null)
 const list = ref([])
@@ -244,6 +246,15 @@ async function onReview() {
     loadAll()
   } finally {
     submitting.value = false
+  }
+}
+
+async function onExport() {
+  try {
+    await download('/export/warnings', '预警列表.xlsx')
+    ElMessage.success('导出成功')
+  } catch (e) {
+    ElMessage.warning(e.message || '导出失败')
   }
 }
 

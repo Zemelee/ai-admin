@@ -14,6 +14,7 @@ export const MENUS_BY_ROLE = {
     { path: '/supervisor/transfers', title: '单位变更审批', icon: 'Files' },
     { path: '/supervisor/company-evals', title: '企业鉴定', icon: 'DocumentChecked' },
     { path: '/supervisor/student-scores', title: '成绩汇总', icon: 'DataAnalysis' },
+    { path: '/admin/announcements', title: '系统公告', icon: 'Message' },
     { path: '/policy/chat', title: '合规知识库', icon: 'ChatDotRound' }
   ],
   teacher: [

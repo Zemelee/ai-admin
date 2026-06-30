@@ -217,6 +217,12 @@ const routes = [
         meta: { roles: ['supervisor'], title: '企业鉴定' }
       },
       {
+        path: 'admin/announcements',
+        name: 'admin-announcements',
+        component: () => import('@/views/admin/Announcements.vue'),
+        meta: { roles: ['supervisor'], title: '系统公告' }
+      },
+      {
         path: 'transfer/:id',
         name: 'transfer-detail',
         component: () => import('@/views/transfer/TransferDetail.vue'),

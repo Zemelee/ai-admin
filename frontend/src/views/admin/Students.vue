@@ -13,6 +13,7 @@
             <el-option v-for="(l, k) in INTERN_STATUS_LABEL" :key="k" :label="l" :value="k" />
           </el-select>
           <el-button type="primary" :icon="Plus" @click="openCreate">新增学生</el-button>
+          <el-button :icon="Download" @click="onExport">导出 Excel</el-button>
         </div>
       </div>
 
@@ -210,12 +211,13 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { Plus, Search } from '@element-plus/icons-vue'
+import { Download, Plus, Search } from '@element-plus/icons-vue'
 import {
   adminStudentPage, adminStudentCreate, adminStudentUpdate, adminStudentDelete, adminStudentBind,
   optionTeachers, optionMentors, optionCompanies,
   INTERN_STATUS_LABEL, INTERN_STATUS_TAG
 } from '@/api/admin'
+import { download } from '@/utils/download'
 
 const list = ref([])
 const loading = ref(false)
@@ -373,6 +375,15 @@ async function onBind() {
     loadList()
   } finally {
     bindSubmitting.value = false
+  }
+}
+
+async function onExport() {
+  try {
+    await download('/export/students', '学生档案.xlsx')
+    ElMessage.success('导出成功')
+  } catch (e) {
+    ElMessage.warning(e.message || '导出失败')
   }
 }
 

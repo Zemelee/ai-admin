@@ -48,6 +48,7 @@
       </el-header>
 
       <el-main class="main">
+        <AnnouncementBar />
         <RouterView />
       </el-main>
     </el-container>
@@ -74,9 +75,11 @@ import {
   ChatDotRound,
   Memo,
   Files,
-  Warning
+  Warning,
+  Message
 } from '@element-plus/icons-vue'
 import { ElMessageBox } from 'element-plus'
+import AnnouncementBar from '@/components/AnnouncementBar.vue'
 
 const ICONS = {
   DataAnalysis,
@@ -90,7 +93,8 @@ const ICONS = {
   ChatDotRound,
   Memo,
   Files,
-  Warning
+  Warning,
+  Message
 }
 
 const route = useRoute()

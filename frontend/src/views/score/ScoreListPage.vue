@@ -24,6 +24,7 @@
       <div class="card-head">
         <div class="card-title">{{ title }}</div>
         <div class="card-tools">
+          <el-button :icon="Download" @click="onExport">导出 Excel</el-button>
           <el-button :icon="Refresh" @click="loadList">刷新</el-button>
         </div>
       </div>
@@ -91,8 +92,10 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { Refresh } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
+import { Download, Refresh } from '@element-plus/icons-vue'
 import { GRADE_TAG, fmtScore } from '@/api/score'
+import { download } from '@/utils/download'
 
 const props = defineProps({ title: { type: String, default: '实习成绩汇总' }, fetcher: { type: Function, required: true } })
 
@@ -114,6 +117,15 @@ async function loadList() {
     list.value = await props.fetcher()
   } finally {
     loading.value = false
+  }
+}
+
+async function onExport() {
+  try {
+    await download('/export/scores', '实习成绩汇总.xlsx')
+    ElMessage.success('导出成功')
+  } catch (e) {
+    ElMessage.warning(e.message || '导出失败')
   }
 }
 

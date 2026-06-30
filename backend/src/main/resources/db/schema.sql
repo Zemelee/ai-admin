@@ -398,4 +398,18 @@ CREATE TABLE `ai_call_log`
     KEY `idx_biz` (`biz_type`, `biz_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT 'AI 调用日志表';
 
+-- 系统公告表
+CREATE TABLE IF NOT EXISTS sys_announcement (
+    id BIGINT PRIMARY KEY COMMENT '雪花 ID',
+    title VARCHAR(200) NOT NULL COMMENT '公告标题',
+    content TEXT NOT NULL COMMENT '公告内容（Markdown）',
+    priority VARCHAR(20) DEFAULT 'NORMAL' COMMENT '优先级: NORMAL / IMPORTANT / URGENT',
+    status VARCHAR(20) DEFAULT 'PUBLISHED' COMMENT '状态: DRAFT / PUBLISHED',
+    publish_time DATETIME NULL COMMENT '发布时间',
+    create_user_id BIGINT NULL COMMENT '发布人用户ID',
+    create_time DATETIME NOT NULL,
+    update_time DATETIME NULL,
+    deleted INT DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统公告';
+
 SET FOREIGN_KEY_CHECKS = 1;
