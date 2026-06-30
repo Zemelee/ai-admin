@@ -17,6 +17,7 @@ export const MENUS_BY_ROLE = {
     { path: '/policy/chat', title: '合规知识库', icon: 'ChatDotRound' }
   ],
   teacher: [
+    { path: '/teacher/overview', title: '工作台', icon: 'Monitor' },
     { path: '/teacher/students', title: '我带的学生', icon: 'User' },
     { path: '/teacher/leaves', title: '请假审批', icon: 'DocumentChecked' },
     { path: '/teacher/internship-logs', title: '学生日志', icon: 'EditPen' },

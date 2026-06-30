@@ -194,7 +194,6 @@ const rules = {
 
 const detailVisible = ref(false)
 const detailLoading = ref(false)
-const detailInfo = ref(null)
 
 function renderContent(content) {
   if (!content) return ''
@@ -235,14 +234,14 @@ async function openReview(row) {
 
 function openDetail(id) {
   currentId.value = id
-  loadDetail(id)
   detailVisible.value = true
+  loadDetail(id)
 }
 
 async function loadDetail(id) {
   detailLoading.value = true
   try {
-    detailInfo.value = await reportDetail(id)
+    detail.value = await reportDetail(id)
   } finally {
     detailLoading.value = false
   }
@@ -256,7 +255,7 @@ function resetReview() {
 }
 
 function resetDetail() {
-  detailInfo.value = null
+  detail.value = null
 }
 
 async function onReview() {

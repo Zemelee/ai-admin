@@ -59,6 +59,12 @@ const routes = [
       },
       // teacher
       {
+        path: 'teacher/overview',
+        name: 'teacher-overview',
+        component: () => import('@/views/teacher/TeacherOverview.vue'),
+        meta: { roles: ['teacher'], title: '工作台' }
+      },
+      {
         path: 'teacher/students',
         name: 'teacher-students',
         component: () => import('@/views/teacher/MyStudents.vue'),

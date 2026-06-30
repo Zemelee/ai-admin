@@ -96,7 +96,7 @@ async function onSend() {
 function askQuick(q) {
   if (sending.value) return
   input.value = q
-  onSend()
+  // onSend()
 }
 
 async function sendQuestion(q) {
